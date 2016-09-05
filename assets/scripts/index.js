@@ -1,6 +1,6 @@
 'use strict';
 
-const authEvents = require('./auth/events.js');
+const authEvents = require('./events.js');
 
 // On document ready
 $(() => {

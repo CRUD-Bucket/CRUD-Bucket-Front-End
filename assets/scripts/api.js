@@ -1,6 +1,6 @@
 'use strict';
 
-const app = require('../app');
+const app = require('./app');
 //change this later with true path
 let path;
 
