@@ -1,6 +1,7 @@
 'use strict';
 
 const app = require('./app');
+
 //change this later with true path
 let path;
 
@@ -51,6 +52,7 @@ const create = function (data) {
     data: {
       folder: {
         name: `${data.name}`,
+
         //change this later with true path
         path: `${app.user._id}`,
       },
@@ -111,6 +113,21 @@ const getMyFolders = function () {
     });
 };
 
+// const upload = function (data) {
+//   console.log(data);
+//   return $.ajax({
+//     url: 'http://localhost:3000/files',
+//     method: 'POST',
+//     headers: {
+//       Authorization: 'Token token=' + app.user.token,
+//     },
+//     processData: false,
+//     contentType: false,
+//     data,
+//   }).done(data => $('.upload').attr('src', `${data.upload.url}`))
+//   .fail(err => console.error(err));
+// };
+
 module.exports = {
   signUp,
   signIn,
@@ -120,4 +137,5 @@ module.exports = {
   getUsers,
   getFolders,
   getMyFolders,
+  // upload,
 };

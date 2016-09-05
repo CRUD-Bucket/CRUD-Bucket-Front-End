@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 
+
 <head>
   <title>CRUD Bucket</title>
 
@@ -143,7 +144,37 @@
   <ul class="show-users">
   </ul>
 
+  <form id="application-x-www-form-data" action="http://localhost:3000/files" method="post">
+      <fieldset>
+        <legend>enctype unset</legend>
+        <label>
+          Title
+          <input type="text" name="image[name]">
+        </label>
+        <label>
+          Image
+          <input type="file" name="image[file]">
+        </label>
+        <input type="submit" name="submit" value="Upload">
+      </fieldset>
+    </form>
+    <form id="multipart-form-data" action="http://localhost:3000/files" method="post" enctype="multipart/form-data">
+      <fieldset>
+        <legend>enctype="multipart/form-data"</legend>
+        <label>
+          Title
+          <input type="text" name="image[name]">
+        </label>
+        <label>
+          Image
+          <input type="file" name="image[file]">
+        </label>
+        <input type="submit" name="submit" value="Upload">
+      </fieldset>
+    </form>
+  <li class='upload'></li>
 
 </body>
+
 
 </html>

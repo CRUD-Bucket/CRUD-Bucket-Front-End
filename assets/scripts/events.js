@@ -1,6 +1,7 @@
 'use strict';
 
 const getFormFields = require('../../lib/get-form-fields');
+const app = require('./app');
 
 const api = require('./api');
 const ui = require('./ui');
@@ -8,6 +9,7 @@ const ui = require('./ui');
 const onSignUp = function (event) {
   let data = getFormFields(event.target);
   event.preventDefault();
+
   // console.log(data);
   api.signUp(data)
       .done(ui.success)
@@ -22,6 +24,7 @@ const onSignIn = function (event) {
       .done(ui.signInSuccess)
       .fail(ui.failure);
   $('#sign-in').modal('hide');
+
   // console.log(data);
 };
 
@@ -31,6 +34,7 @@ const onChangePassword = (event) => {
   api.changePassword(data)
       .done(ui.success)
       .fail(ui.failure);
+
   // console.log(data);
   $('#change-password').modal('hide');
 };
@@ -61,6 +65,11 @@ const onCreate = function (event) {
   $('#create-folder').modal('hide');
 };
 
+// const onUpload = function () {
+//
+//
+// };
+
 const addHandlers = () => {
   $('.sign-up-form').on('submit', onSignUp);
   $('.sign-in-form').on('submit', onSignIn);
@@ -69,6 +78,22 @@ const addHandlers = () => {
   $('.create-folder-form').on('submit', onCreate);
   $('#show-users').on('click', api.getUsers);
   $('#my-folder').on('click', api.getMyFolders);
+  $('#multipart-form-data').on('submit', function (event) {
+    event.preventDefault();
+    let data = new FormData(this);
+    console.log(data);
+    $.ajax({
+      url: 'http://localhost:3000/files',
+      method: 'POST',
+      headers: {
+        Authorization: 'Token token=' + app.user.token,
+      },
+      processData: false,
+      contentType: false,
+      data,
+    }).done(data => $('.upload').html(`${data.file.url}`))
+    .fail(err => console.error(err));
+  });
 };
 
 module.exports = {
