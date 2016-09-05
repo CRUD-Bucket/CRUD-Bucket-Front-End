@@ -49,12 +49,26 @@ const OnSignOut = function (event) {
   $('#welcome-sign').html('Record your life from here');
 };
 
+//folder ajax
+const onCreate = function (event) {
+  let folderData = getFormFields(this);
+  console.log(folderData);
+  event.preventDefault();
+
+  api.create(folderData)
+    .done(ui.createSuccess)
+    .fail(ui.onError);
+  $('#create-folder').modal('hide');
+};
+
 const addHandlers = () => {
   $('.sign-up-form').on('submit', onSignUp);
   $('.sign-in-form').on('submit', onSignIn);
   $('.change-password-form').on('submit', onChangePassword);
   $('#sign-out').on('click', OnSignOut);
-
+  $('.create-folder-form').on('submit', onCreate);
+  $('#show-users').on('click', api.getUsers);
+  $('#my-folder').on('click', api.getMyFolders);
 };
 
 module.exports = {
