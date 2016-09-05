@@ -1,2 +1,11 @@
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
+
+button {
+  margin: 0 5px;
+}
+
+form input[type=text], form input[type=password] {
+  width: 90%;
+  margin: 5px auto;
+}
