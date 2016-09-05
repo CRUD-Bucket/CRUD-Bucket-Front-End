@@ -1,6 +1,6 @@
 'use strict';
 
-const getFormFields = require('../../../lib/get-form-fields');
+const getFormFields = require('../../lib/get-form-fields');
 
 const api = require('./api');
 const ui = require('./ui');
@@ -8,7 +8,7 @@ const ui = require('./ui');
 const onSignUp = function (event) {
   let data = getFormFields(event.target);
   event.preventDefault();
-  console.log(data);
+  // console.log(data);
   api.signUp(data)
       .done(ui.success)
       .fail(ui.failure);
@@ -22,7 +22,7 @@ const onSignIn = function (event) {
       .done(ui.signInSuccess)
       .fail(ui.failure);
   $('#sign-in').modal('hide');
-  console.log(data);
+  // console.log(data);
 };
 
 const onChangePassword = (event) => {
@@ -31,7 +31,7 @@ const onChangePassword = (event) => {
   api.changePassword(data)
       .done(ui.success)
       .fail(ui.failure);
-  console.log(data);
+  // console.log(data);
   $('#change-password').modal('hide');
 };
 
@@ -49,12 +49,26 @@ const OnSignOut = function (event) {
   $('#welcome-sign').html('Record your life from here');
 };
 
+//folder ajax
+const onCreate = function (event) {
+  let folderData = getFormFields(this);
+  console.log(folderData);
+  event.preventDefault();
+
+  api.create(folderData)
+    .done(ui.createSuccess)
+    .fail(ui.onError);
+  $('#create-folder').modal('hide');
+};
+
 const addHandlers = () => {
   $('.sign-up-form').on('submit', onSignUp);
   $('.sign-in-form').on('submit', onSignIn);
   $('.change-password-form').on('submit', onChangePassword);
   $('#sign-out').on('click', OnSignOut);
-
+  $('.create-folder-form').on('submit', onCreate);
+  $('#show-users').on('click', api.getUsers);
+  $('#my-folder').on('click', api.getMyFolders);
 };
 
 module.exports = {
