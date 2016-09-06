@@ -43,7 +43,7 @@ const getRootContents = function (data) {
     .done(ui.displayUserFolder)
     .fail(ui.onError);
   api.showRootFiles(search)
-    .done(ui.success)
+    .done(ui.displayUserFile)
     .fail(ui.onError);
 };
 
