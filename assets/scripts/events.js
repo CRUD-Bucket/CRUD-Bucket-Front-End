@@ -40,7 +40,7 @@ const getRootContents = function (data) {
   // console.log(search);
 
   api.showRootFolder(search)
-    .done(ui.success)
+    .done(ui.displayUserFolder)
     .fail(ui.onError);
   api.showRootFiles(search)
     .done(ui.success)

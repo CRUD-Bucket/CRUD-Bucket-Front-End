@@ -4,7 +4,7 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import 'simple-sidebar';
 
 button {
-  margin: 0 5px;
+  margin: 0 2px;
 }
 
 #wrapper {
@@ -13,4 +13,12 @@ button {
 
 .navbar-default {
   margin-bottom: 0;
+}
+
+.folder-info {
+  padding: 20px;
+}
+
+.icon {
+  width: 70%;
 }
