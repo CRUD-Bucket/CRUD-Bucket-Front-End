@@ -28,6 +28,14 @@ const displayUserFolder = function(data){
     }));
 };
 
+const displayUserFile = function(data){
+  console.log(data);
+  let userFileTemplate = require('./templates/current-user-file.handlebars');
+    $('#main-content').append(userFileTemplate({
+      files: data.files
+    }));
+};
+
 const displayUsers = function(data){
   let userTemplate = require('./templates/user.handlebars');
   $('.sidebar-nav').html(userTemplate({
@@ -43,4 +51,5 @@ module.exports = {
   createSuccess,
   displayUsers,
   displayUserFolder,
+  displayUserFile,
 };
