@@ -48,7 +48,6 @@ const getRootFolder = function (data) {
   app.currentPath = `,${data.user._id}`;
 
   let search = app.currentPath;
-
   // console.log(search);
 
   api.showRootFolder(search)
@@ -56,11 +55,11 @@ const getRootFolder = function (data) {
     .fail(ui.onError);
 };
 
-const onGetUsers = function () {
+const onGetUsers = function(){
   api.getUsers()
     .done(ui.success)
     .fail(ui.onError);
-};
+}
 
 const onSignIn = function (event) {
   let data = getFormFields(this);
