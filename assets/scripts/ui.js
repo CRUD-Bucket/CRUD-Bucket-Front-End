@@ -20,10 +20,10 @@ const createSuccess = () => {
   console.log('folder created');
 };
 
-const displayUsers = function(data){
+const displayUsers = function (data) {
   let userTemplate = require('./templates/user.handlebars');
-    $('.sidebar-nav').html(userTemplate({
-      users: data.users
+  $('.sidebar-nav').html(userTemplate({
+      users: data.users,
     }));
 };
 
