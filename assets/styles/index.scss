@@ -1,7 +1,16 @@
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
 @import 'forms';
+@import 'simple-sidebar';
 
 button {
   margin: 0 5px;
+}
+
+#wrapper {
+  margin-top: 0;
+}
+
+.navbar-default {
+  margin-bottom: 0;
 }
