@@ -20,10 +20,18 @@ const createSuccess = () => {
   console.log('folder created');
 };
 
+const displayUsers = function(data){
+  let userTemplate = require('./templates/user.handlebars');
+    $('.sidebar-nav').html(userTemplate({
+      users: data.users
+    }));
+};
+
 module.exports = {
   failure,
   success,
   signOutSuccess,
   app,
   createSuccess,
+  displayUsers,
 };

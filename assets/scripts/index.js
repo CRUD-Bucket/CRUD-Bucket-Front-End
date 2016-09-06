@@ -8,4 +8,5 @@ $(() => {
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
   });
+  authEvents.addHandlers();
 });
