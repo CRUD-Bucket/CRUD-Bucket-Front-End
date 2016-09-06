@@ -32,7 +32,7 @@
             <button type="button" class="btn btn-success navbar-btn" data-toggle="modal" data-target='#create-folder'>New Folder</button>
           </li>
           <li>
-            <button type="button" class="btn btn-success navbar-btn">Upload File</button>
+            <button type="button" class="btn btn-success navbar-btn" data-toggle="modal" data-target='#upload-file'>Upload File</button>
           </li>
 
         </ul>
@@ -69,9 +69,9 @@
     <div class="modal-dialog modal-sm" role="document">
       <div class="modal-content">
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Sign Up</h4>
-          </div>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Sign Up</h4>
+        </div>
         <form class="sign-up-form">
           <input type='text' name="credentials[email]" class="form-control" placeholder="Username">
           <input type='password' name="credentials[password]" class="form-control" placeholder="Password">
@@ -127,9 +127,9 @@
     <div class="modal-dialog modal-sm" role="document">
       <div class="modal-content">
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">New Folder</h4>
-          </div>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">New Folder</h4>
+        </div>
         <form class="create-folder-form">
           <input type='text' name='name' class="form-control" placeholder="Folder Name">
           <div class="modal-footer">
@@ -140,38 +140,31 @@
     </div>
   </div>
 
+  <!-- upload file -->
+  <div class="modal fade" id="upload-file" tabindex="-1" role="dialog" aria-labelledby="create-folder" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Upload File</h4>
+        </div>
+        <form id="multipart-form-data" action="http://localhost:3000/files" method="post" enctype="multipart/form-data">
+          <input type="text" class="form-control" name="image[name]" placeholder="File Name">
+          <input type="file" name="image[file]">
+          <div class="modal-footer">
+            <input type="submit" name="submit" value="Upload" class="btn btn-primary">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- show all users -->
   <ul class="show-users">
   </ul>
 
-  <form id="application-x-www-form-data" action="http://localhost:3000/files" method="post">
-      <fieldset>
-        <legend>enctype unset</legend>
-        <label>
-          Title
-          <input type="text" name="image[name]">
-        </label>
-        <label>
-          Image
-          <input type="file" name="image[file]">
-        </label>
-        <input type="submit" name="submit" value="Upload">
-      </fieldset>
-    </form>
-    <form id="multipart-form-data" action="http://localhost:3000/files" method="post" enctype="multipart/form-data">
-      <fieldset>
-        <legend>enctype="multipart/form-data"</legend>
-        <label>
-          Title
-          <input type="text" name="image[name]">
-        </label>
-        <label>
-          Image
-          <input type="file" name="image[file]">
-        </label>
-        <input type="submit" name="submit" value="Upload">
-      </fieldset>
-    </form>
+
+
   <li class='upload'></li>
 
 </body>
