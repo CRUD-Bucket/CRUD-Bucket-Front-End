@@ -12,7 +12,7 @@ const createRootFolder = function (data) {
       "name": `${data.user.email}Root`,
       "path": `,${data.user._id}`,
       "_owner": data.user._id,
-    }
+    },
   };
 
   api.createRootFolder(folderData)
@@ -55,11 +55,11 @@ const getRootFolder = function (data) {
     .fail(ui.onError);
 };
 
-const onGetUsers = function(){
+const onGetUsers = function () {
   api.getUsers()
     .done(ui.success)
     .fail(ui.onError);
-}
+};
 
 const onSignIn = function (event) {
   let data = getFormFields(this);
@@ -107,7 +107,7 @@ const onCreateFolder = function (event) {
     "folder": {
       "name": folderData.name,
       "path": app.currentPath,
-    }
+    },
   };
 
   api.createFolder(data)
