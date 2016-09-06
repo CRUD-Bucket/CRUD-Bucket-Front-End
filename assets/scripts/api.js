@@ -41,7 +41,16 @@ const signOut = () => $.ajax({
 });
 
 //folder apis
-const create = function (data) {
+const createRootFolder = function (data) {
+  return $.ajax({
+    url: app.api + '/rootfolders',
+    method: 'POST',
+    data,
+  });
+};
+
+//folder apis
+const createFolder = function (data) {
   console.log(app.user._id);
   return $.ajax({
     url: app.api + '/folders',
@@ -54,7 +63,7 @@ const create = function (data) {
         name: `${data.name}`,
 
         //change this later with true path
-        path: `${app.user._id}`,
+        path: `${app.path}`,
       },
     },
   });
@@ -133,9 +142,10 @@ module.exports = {
   signIn,
   signOut,
   changePassword,
-  create,
+  createFolder,
   getUsers,
   getFolders,
   getMyFolders,
+  createRootFolder,
   // upload,
 };

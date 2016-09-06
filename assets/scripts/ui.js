@@ -2,12 +2,20 @@
 
 const app = require('./app');
 
+const savePath = (data) => {
+  console.log('save path');
+  console.log(data);
+  app.path = data.folder.path;
+};
+
 const signInSuccess = (data) => {
   app.user = data.user;
+  savePath(data);
   // console.log(app.user.email);
 };
 
 const success = (data) => {
+  console.log('success');
   console.log(data);
 };
 
@@ -22,7 +30,6 @@ const signOutSuccess = () => {
 
 const createSuccess = (data) => {
   app.folder = data.folder;
-  console.log(app.folder);
 };
 
 module.exports = {

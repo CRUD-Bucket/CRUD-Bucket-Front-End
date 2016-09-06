@@ -6,13 +6,27 @@ const app = require('./app');
 const api = require('./api');
 const ui = require('./ui');
 
+const createRootFolder = function (data) {
+  let folderData = {
+    "folder": {
+      "name": `${data.user.email}Root`,
+      "path": `,${data.user._id}`,
+      "_owner": data.user._id,
+    }
+  };
+
+  api.createRootFolder(folderData)
+    .done(ui.success)
+    .fail(ui.onError);
+};
+
 const onSignUp = function (event) {
   let data = getFormFields(event.target);
   event.preventDefault();
 
   // console.log(data);
   api.signUp(data)
-      .done(ui.success)
+      .done(createRootFolder)
       .fail(ui.failure);
   $('#sign-up').modal('hide');
 };
@@ -54,12 +68,12 @@ const OnSignOut = function (event) {
 };
 
 //folder ajax
-const onCreate = function (event) {
+const onCreateFolder = function (event) {
   let folderData = getFormFields(this);
   console.log(folderData);
   event.preventDefault();
 
-  api.create(folderData)
+  api.createFolder(folderData)
     .done(ui.createSuccess)
     .fail(ui.onError);
   $('#create-folder').modal('hide');
@@ -75,7 +89,7 @@ const addHandlers = () => {
   $('.sign-in-form').on('submit', onSignIn);
   $('.change-password-form').on('submit', onChangePassword);
   $('#sign-out').on('click', OnSignOut);
-  $('.create-folder-form').on('submit', onCreate);
+  $('.create-folder-form').on('submit', onCreateFolder);
   $('#show-users').on('click', api.getUsers);
   $('#my-folder').on('click', api.getMyFolders);
   $('#multipart-form-data').on('submit', function (event) {
