@@ -59,7 +59,7 @@ const getRootFolder = function (data) {
 
 const onGetUsers = function () {
   api.getUsers()
-    .done(ui.success)
+    .done(ui.displayUsers)
     .fail(ui.onError);
 };
 
