@@ -76,6 +76,11 @@ const showRootFolder = (path) => $.ajax({
   method: 'GET',
 });
 
+const showRootFiles = (path) => $.ajax({
+  url: app.api + '/rootfiles/' + path,
+  method: 'GET',
+});
+
 const getFolders = function () {
   return $.ajax({
     url: app.api + '/folders',
@@ -131,6 +136,7 @@ module.exports = {
   getMyFolders,
   createRootFolder,
   showRootFolder,
+  showRootFiles,
 
   // upload,
 };

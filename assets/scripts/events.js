@@ -42,6 +42,9 @@ const getRootContents = function (data) {
   api.showRootFolder(search)
     .done(ui.success)
     .fail(ui.onError);
+  api.showRootFiles(search)
+    .done(ui.success)
+    .fail(ui.onError);
 };
 
 const getRootFolder = function (data) {
