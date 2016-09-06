@@ -51,21 +51,14 @@ const createRootFolder = function (data) {
 
 //folder apis
 const createFolder = function (data) {
-  console.log(app.user._id);
+  // console.log(app.user._id);
   return $.ajax({
     url: app.api + '/folders',
     method: 'POST',
     headers: {
       Authorization: 'Token token=' + app.user.token,
     },
-    data: {
-      folder: {
-        name: `${data.name}`,
-
-        //change this later with true path
-        path: `${app.path}`,
-      },
-    },
+    data,
   });
 };
 
@@ -77,6 +70,11 @@ const showFolders = function (data) {
     }
   }
 };
+
+const showRootFolder = (path) => $.ajax({
+  url: app.api + '/rootfolders/' + path,
+  method: 'GET',
+});
 
 const getFolders = function () {
   return $.ajax({
@@ -101,7 +99,7 @@ const showUsers = function (data) {
 };
 
 const getUsers = function () {
-  console.log('show');
+  // console.log('show');
   return $.ajax({
     url: app.api + '/users',
     method: 'GET',
@@ -147,5 +145,6 @@ module.exports = {
   getFolders,
   getMyFolders,
   createRootFolder,
+  showRootFolder,
   // upload,
 };

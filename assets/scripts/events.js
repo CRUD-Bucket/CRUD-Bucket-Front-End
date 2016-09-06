@@ -31,11 +31,35 @@ const onSignUp = function (event) {
   $('#sign-up').modal('hide');
 };
 
+const getRootContents = function (data) {
+  //save current path
+  app.path = `${app.path},${data.folders[0]._id}`;
+
+  let search = app.path;
+  // console.log(search);
+
+  api.showRootFolder(search)
+    .done(ui.success)
+    .fail(ui.onError);
+};
+
+const getRootFolder = function (data) {
+  app.user = data.user;
+  app.path = `,${data.user._id}`;
+
+  let search = app.path;
+  // console.log(search);
+
+  api.showRootFolder(search)
+    .done(getRootContents)
+    .fail(ui.onError);
+};
+
 const onSignIn = function (event) {
   let data = getFormFields(this);
   event.preventDefault();
   api.signIn(data)
-      .done(ui.signInSuccess)
+      .done(getRootFolder)
       .fail(ui.failure);
   $('#sign-in').modal('hide');
 
@@ -69,11 +93,17 @@ const OnSignOut = function (event) {
 
 //folder ajax
 const onCreateFolder = function (event) {
-  let folderData = getFormFields(this);
-  console.log(folderData);
   event.preventDefault();
+  let folderData = getFormFields(this);
 
-  api.createFolder(folderData)
+  let data = {
+    "folder": {
+      "name": folderData.name,
+      "path": app.path,
+    }
+  };
+
+  api.createFolder(data)
     .done(ui.createSuccess)
     .fail(ui.onError);
   $('#create-folder').modal('hide');

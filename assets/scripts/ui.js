@@ -2,18 +2,6 @@
 
 const app = require('./app');
 
-const savePath = (data) => {
-  console.log('save path');
-  console.log(data);
-  app.path = data.folder.path;
-};
-
-const signInSuccess = (data) => {
-  app.user = data.user;
-  savePath(data);
-  // console.log(app.user.email);
-};
-
 const success = (data) => {
   console.log('success');
   console.log(data);
@@ -28,14 +16,13 @@ const signOutSuccess = () => {
   console.log('success');
 };
 
-const createSuccess = (data) => {
-  app.folder = data.folder;
+const createSuccess = () => {
+  console.log('folder created');
 };
 
 module.exports = {
   failure,
   success,
-  signInSuccess,
   signOutSuccess,
   app,
   createSuccess,
