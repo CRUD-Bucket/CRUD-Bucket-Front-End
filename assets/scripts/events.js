@@ -8,10 +8,10 @@ const ui = require('./ui');
 
 const createRootFolder = function (data) {
   let folderData = {
-    "folder": {
-      "name": `${data.user.email}Root`,
-      "path": `,${data.user._id}`,
-      "_owner": data.user._id,
+    folder: {
+      name: `${data.user.email}Root`,
+      path: `,${data.user._id}`,
+      _owner: data.user._id,
     },
   };
 
@@ -36,6 +36,7 @@ const getRootContents = function (data) {
   app.currentPath = `${app.currentPath},${data.folders[0]._id}`;
 
   let search = app.currentPath;
+
   // console.log(search);
 
   api.showRootFolder(search)
@@ -48,6 +49,7 @@ const getRootFolder = function (data) {
   app.currentPath = `,${data.user._id}`;
 
   let search = app.currentPath;
+
   // console.log(search);
 
   api.showRootFolder(search)
@@ -104,9 +106,9 @@ const onCreateFolder = function (event) {
   let folderData = getFormFields(this);
 
   let data = {
-    "folder": {
-      "name": folderData.name,
-      "path": app.currentPath,
+    folder: {
+      name: folderData.name,
+      path: app.currentPath,
     },
   };
 
@@ -131,8 +133,9 @@ const addHandlers = () => {
   $('#multipart-form-data').on('submit', function (event) {
     event.preventDefault();
     let data = new FormData(this);
+    data.append('path', app.currentPath);
     console.log(data);
-    $.ajax({
+    return $.ajax({
       url: 'http://localhost:3000/files',
       method: 'POST',
       headers: {
