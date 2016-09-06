@@ -33,9 +33,9 @@ const onSignUp = function (event) {
 
 const getRootContents = function (data) {
   //save current path
-  app.path = `${app.path},${data.folders[0]._id}`;
+  app.currentPath = `${app.currentPath},${data.folders[0]._id}`;
 
-  let search = app.path;
+  let search = app.currentPath;
   // console.log(search);
 
   api.showRootFolder(search)
@@ -45,9 +45,9 @@ const getRootContents = function (data) {
 
 const getRootFolder = function (data) {
   app.user = data.user;
-  app.path = `,${data.user._id}`;
+  app.currentPath = `,${data.user._id}`;
 
-  let search = app.path;
+  let search = app.currentPath;
   // console.log(search);
 
   api.showRootFolder(search)
@@ -99,7 +99,7 @@ const onCreateFolder = function (event) {
   let data = {
     "folder": {
       "name": folderData.name,
-      "path": app.path,
+      "path": app.currentPath,
     }
   };
 

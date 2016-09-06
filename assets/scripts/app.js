@@ -2,7 +2,7 @@
 
 const app = {
   api: 'http://localhost:3000',
-  path: '',
+  currentPath: '',
 };
 
 module.exports = app;
