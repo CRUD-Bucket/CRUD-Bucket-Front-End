@@ -55,11 +55,18 @@ const getRootFolder = function (data) {
     .fail(ui.onError);
 };
 
+const onGetUsers = function(){
+  api.getUsers()
+    .done(ui.success)
+    .fail(ui.onError);
+}
+
 const onSignIn = function (event) {
   let data = getFormFields(this);
   event.preventDefault();
   api.signIn(data)
       .done(getRootFolder)
+      .done(onGetUsers)
       .fail(ui.failure);
   $('#sign-in').modal('hide');
 
@@ -120,7 +127,6 @@ const addHandlers = () => {
   $('.change-password-form').on('submit', onChangePassword);
   $('#sign-out').on('click', OnSignOut);
   $('.create-folder-form').on('submit', onCreateFolder);
-  $('#show-users').on('click', api.getUsers);
   $('#my-folder').on('click', api.getMyFolders);
   $('#multipart-form-data').on('submit', function (event) {
     event.preventDefault();
