@@ -11,31 +11,10 @@ const ui = require('./ui');
 
 const displayUserFolder = function(data){
   console.log(data);
-  let userFolderTemplate = require('./templates/current-user-folder.handlebars');
+  let userFolderTemplate = require('./templates/current-user-folders.handlebars');
     $('#main-content').html(userFolderTemplate({
       folders: data.folders
     }));
-    $('.rename-folder-button').on('click', function(){
-      let folderId = $(this).data('folder-id');
-
-      console.log(folderId);
-
-      let newName = $(this).prev().val();
-
-      console.log(newName);
-
-      let data = {
-        "folder" : {
-          "name": newName,
-        }
-      };
-
-      console.log(data);
-
-      api.renameFolder(data, folderId)
-        .done($(this).prevAll('h5:last').text(newName))
-        .fail(ui.onError);
-    });
 };
 
 
@@ -254,6 +233,27 @@ const onIcon = function (event) {
   else if (target.hasClass('delete-button')) {
     let fileId = target.data('fileId');
       api.deleteFile(fileId)
+        .done($(this).remove())
+        .fail(ui.onError);
+  }
+  else if (target.hasClass('rename-folder-button')) {
+    let folderId = target.data('folder-id');
+    let newName = $(this).find('input').val();
+
+      let data = {
+        "folder" : {
+          "name": newName,
+        }
+      };
+
+      api.renameFolder(data, folderId)
+        .done(console.log($(this).find('h5').text(newName)))
+        .fail(ui.onError);
+  }
+  else if (target.hasClass('delete-folder-button')) {
+    console.log('delete folder button');
+    let folderId = target.data('folder-id');
+      api.deleteFolder(folderId)
         .done($(this).remove())
         .fail(ui.onError);
   }

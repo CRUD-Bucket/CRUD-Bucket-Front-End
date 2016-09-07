@@ -142,21 +142,15 @@ const renameFolder = function(data, folderId) {
   });
 };
 
-
-// const upload = function (data) {
-//   console.log(data);
-//   return $.ajax({
-//     url: 'http://localhost:3000/files',
-//     method: 'POST',
-//     headers: {
-//       Authorization: 'Token token=' + app.user.token,
-//     },
-//     processData: false,
-//     contentType: false,
-//     data,
-//   }).done(data => $('.upload').attr('src', `${data.upload.url}`))
-//   .fail(err => console.error(err));
-// };
+const deleteFolder = function(folderId) {
+  return $.ajax({
+    url: app.api + '/folders/' + folderId,
+    method: 'DELETE',
+    headers: {
+      Authorization: 'Token token=' + app.user.token,
+    },
+  });
+};
 
 module.exports = {
   signUp,
@@ -173,6 +167,5 @@ module.exports = {
   deleteFile,
   renameFile,
   renameFolder,
-
-  // upload,
+  deleteFolder,
 };
