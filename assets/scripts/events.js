@@ -209,7 +209,7 @@ const addHandlers = () => {
     data.append('path', app.currentPath);
     console.log(data);
     return $.ajax({
-      url: 'http://localhost:3000/files',
+      url: app.api + '/files',
       method: 'POST',
       headers: {
         Authorization: 'Token token=' + app.user.token,
