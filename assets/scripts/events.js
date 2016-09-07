@@ -15,6 +15,25 @@ const displayUserFolder = function(data){
     $('#main-content').html(userFolderTemplate({
       folders: data.folders
     }));
+    $('.rename-folder-button').on('click', function(){
+      let folderId = $(this).data('folder-id');
+
+      console.log(folderId);
+
+      let newName = $(this).prev().val();
+
+      console.log(newName);
+
+      let data = {
+        "folder" : {
+          "name": newName,
+        }
+      };
+
+      console.log(data);
+
+      api.renameFolder(data, folderId);
+    });
 };
 
 const displayUserFile = function(data){

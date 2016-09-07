@@ -131,6 +131,17 @@ const renameFile = function(data, fileId) {
   });
 };
 
+const renameFolder = function(data, folderId) {
+  return $.ajax({
+    url: app.api + '/folders/' + folderId,
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Token token=' + app.user.token,
+    },
+    data,
+  });
+};
+
 
 // const upload = function (data) {
 //   console.log(data);
@@ -161,6 +172,7 @@ module.exports = {
   showRootFiles,
   deleteFile,
   renameFile,
+  renameFolder,
 
   // upload,
 };
