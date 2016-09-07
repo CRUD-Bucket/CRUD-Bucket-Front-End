@@ -6,6 +6,44 @@ const app = require('./app');
 const api = require('./api');
 const ui = require('./ui');
 
+
+
+
+const displayUserFolder = function(data){
+  console.log(data);
+  let userFolderTemplate = require('./templates/current-user-folder.handlebars');
+    $('#main-content').html(userFolderTemplate({
+      folders: data.folders
+    }));
+};
+
+const displayUserFile = function(data){
+  console.log(data);
+  let userFileTemplate = require('./templates/current-user-file.handlebars');
+    $('#main-content').append(userFileTemplate({
+      files: data.files
+    }));
+};
+
+const displayOtherUserFolder = function(data){
+  console.log(data);
+  let otherUserFolderTemplate = require('./templates/other-users-folder.handlebars');
+    $('#main-content').html(otherUserFolderTemplate({
+      folders: data.folders
+    }));
+};
+
+const displayOtherUserFile = function(data){
+  console.log(data);
+  let otherUserFileTemplate = require('./templates/other-users-file.handlebars');
+    $('#main-content').append(otherUserFileTemplate({
+      files: data.files
+    }));
+};
+
+
+
+
 const createRootFolder = function (data) {
   let folderData = {
     folder: {
@@ -40,10 +78,10 @@ const getRootContents = function (data) {
   // console.log(search);
 
   api.showRootFolder(search)
-    .done(ui.displayUserFolder)
+    .done(displayUserFolder)
     .fail(ui.onError);
   api.showRootFiles(search)
-    .done(ui.displayUserFile)
+    .done(displayUserFile)
     .fail(ui.onError);
 };
 
@@ -60,9 +98,41 @@ const getRootFolder = function (data) {
     .fail(ui.onError);
 };
 
+const getOtherRootContents = function (data) {
+  //save current path
+  app.currentPath = `${app.currentPath},${data.folders[0]._id}`;
+
+  let search = app.currentPath;
+
+  // console.log(search);
+
+  api.showRootFolder(search)
+    .done(displayOtherUserFolder)
+    .fail(ui.onError);
+  api.showRootFiles(search)
+    .done(displayOtherUserFile)
+    .fail(ui.onError);
+};
+
+const displayUsers = function(data){
+  console.log(data);
+  let userTemplate = require('./templates/user.handlebars');
+  $('.sidebar-nav').html(userTemplate({
+      users: data.users,
+    }));
+  $('.username').on('click', function(){
+    let search = ($(this).data("path"));
+    app.currentPath = search;
+    api.showRootFolder(search)
+      .done(getOtherRootContents)
+      .fail(ui.onError);
+  });
+};
+
+
 const onGetUsers = function () {
   api.getUsers()
-    .done(ui.displayUsers)
+    .done(displayUsers)
     .fail(ui.onError);
 };
 
