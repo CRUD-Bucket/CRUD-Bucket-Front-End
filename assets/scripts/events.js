@@ -182,13 +182,16 @@ const OnSignOut = function (event) {
   api.signOut()
       .done(ui.signOutSuccess)
       .fail(ui.failure);
-  $('#welcome').html('Echo Diary');
-  $('.after-sign-in, .after-show-diary').addClass('hide');
-  $('.before-sign-in').removeClass('hide');
-  $('.my-diary').empty();
-  $('.edit-diary').empty();
-  $('#welcome-user').html('Echo Diary');
-  $('#welcome-sign').html('Record your life from here');
+};
+
+const addOneFolder = (data) => {
+  let userFolderTemplate = require('./templates/current-user-folder.handlebars');
+    $('#main-content').append(userFolderTemplate({
+      name:data.folder.name,
+      _id: data.folder._id,
+      createdAt: data.folder.createdAt,
+      updatedAt: data.folder.updatedAt,
+    }));
 };
 
 //folder ajax
@@ -204,7 +207,7 @@ const onCreateFolder = function (event) {
   };
 
   api.createFolder(data)
-    .done(ui.createSuccess)
+    .done(addOneFolder)
     .fail(ui.onError);
   $('#create-folder').modal('hide');
 };
@@ -218,7 +221,7 @@ const onIcon = function (event) {
   let target = $(event.target);
   if (target.hasClass('rename-button')) {
     let fileId = target.data('fileId');
-    let newName = $(this).find('input').val();
+    let newName = $(target).prev().val();
 
       let data = {
         "file" : {
@@ -227,18 +230,18 @@ const onIcon = function (event) {
       };
 
       api.renameFile(data, fileId)
-        .done(console.log($(this).find('h5').text(newName)))
+        .done($(target).prevAll('h5:last').text(newName))
         .fail(ui.onError);
   }
   else if (target.hasClass('delete-button')) {
     let fileId = target.data('fileId');
       api.deleteFile(fileId)
-        .done($(this).remove())
+        .done($(target).parent().remove())
         .fail(ui.onError);
   }
   else if (target.hasClass('rename-folder-button')) {
     let folderId = target.data('folder-id');
-    let newName = $(this).find('input').val();
+    let newName = $(target).prev().val();
 
       let data = {
         "folder" : {
@@ -247,16 +250,27 @@ const onIcon = function (event) {
       };
 
       api.renameFolder(data, folderId)
-        .done(console.log($(this).find('h5').text(newName)))
+        .done($(target).prevAll('h5:last').text(newName))
         .fail(ui.onError);
   }
   else if (target.hasClass('delete-folder-button')) {
     console.log('delete folder button');
     let folderId = target.data('folder-id');
       api.deleteFolder(folderId)
-        .done($(this).remove())
+        .done($(target).parent().remove())
         .fail(ui.onError);
   }
+};
+
+const addOneFile = (data) => {
+  let userFileTemplate = require('./templates/current-user-file.handlebars');
+    $('#main-content').append(userFileTemplate({
+      name:data.file.name,
+      _id: data.file._id,
+      url: data.file.url,
+      createdAt: data.file.createdAt,
+      updatedAt: data.file.updatedAt,
+    }));
 };
 
 const addHandlers = () => {
@@ -271,7 +285,7 @@ const addHandlers = () => {
     event.preventDefault();
     let data = new FormData(this);
     data.append('path', app.currentPath);
-    console.log(data);
+    console.log('upload');
     return $.ajax({
       url: app.api + '/files',
       method: 'POST',
@@ -281,7 +295,7 @@ const addHandlers = () => {
       processData: false,
       contentType: false,
       data,
-    }).done(data => $('.upload').html(`${data.file.url}`))
+    }).done(addOneFile)
     .fail(err => console.error(err));
   });
 };
