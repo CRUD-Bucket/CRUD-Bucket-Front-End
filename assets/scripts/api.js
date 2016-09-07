@@ -110,6 +110,16 @@ const getMyFolders = function () {
     });
 };
 
+const deleteFile = function(fileId) {
+  return $.ajax({
+    url: app.api + '/files/' + fileId,
+    method: 'DELETE',
+    headers: {
+      Authorization: 'Token token=' + app.user.token,
+    },
+  });
+};
+
 // const upload = function (data) {
 //   console.log(data);
 //   return $.ajax({
@@ -137,6 +147,7 @@ module.exports = {
   createRootFolder,
   showRootFolder,
   showRootFiles,
+  deleteFile,
 
   // upload,
 };

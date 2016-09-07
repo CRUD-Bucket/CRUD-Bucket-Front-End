@@ -23,6 +23,12 @@ const displayUserFile = function(data){
     $('#main-content').append(userFileTemplate({
       files: data.files
     }));
+    $('.delete-button').on('click', function(){
+      let fileId = $(this).data('file-id');
+      console.log(fileId);
+      api.deleteFile(fileId);
+
+    });
 };
 
 const displayOtherUserFolder = function(data){
