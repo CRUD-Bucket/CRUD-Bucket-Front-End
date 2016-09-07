@@ -41,35 +41,12 @@ const displayUserFolder = function(data){
 
 
 const displayUserFile = function(data){
+  console.log('send to handlebars');
   console.log(data);
-  let userFileTemplate = require('./templates/current-user-file.handlebars');
+  let userFileTemplate = require('./templates/current-user-files.handlebars');
     $('#main-content').append(userFileTemplate({
       files: data.files
     }));
-    $('.rename-button').on('click', function(){
-      let fileId = $(this).data('file-id');
-      console.log(fileId);
-      let newName = $(this).prev().val();
-      console.log(newName);
-
-      let data = {
-        "file" : {
-          "name": newName,
-        }
-      };
-
-      api.renameFile(data, fileId)
-        .done($(this).prevAll('h5:last').text(newName))
-        .fail(ui.onError);
-    });
-    $('.delete-button').on('click', function(){
-      let fileId = $(this).data('file-id');
-      console.log(fileId);
-      api.deleteFile(fileId)
-        .done($(this).parent().remove())
-        .fail(ui.onError);
-
-    });
 };
 
 // const refreshPage = function() {
@@ -258,7 +235,32 @@ const onCreateFolder = function (event) {
 //
 // };
 
+const onIcon = function (event) {
+  let target = $(event.target);
+  if (target.hasClass('rename-button')) {
+    let fileId = target.data('fileId');
+    let newName = $(this).find('input').val();
+
+      let data = {
+        "file" : {
+          "name": newName,
+        }
+      };
+
+      api.renameFile(data, fileId)
+        .done(console.log($(this).find('h5').text(newName)))
+        .fail(ui.onError);
+  }
+  else if (target.hasClass('delete-button')) {
+    let fileId = target.data('fileId');
+      api.deleteFile(fileId)
+        .done($(this).remove())
+        .fail(ui.onError);
+  }
+};
+
 const addHandlers = () => {
+  $('.icon-div').on('click', onIcon);
   $('.sign-up-form').on('submit', onSignUp);
   $('.sign-in-form').on('submit', onSignIn);
   $('.change-password-form').on('submit', onChangePassword);
