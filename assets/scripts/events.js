@@ -32,9 +32,13 @@ const displayUserFolder = function(data){
 
       console.log(data);
 
-      api.renameFolder(data, folderId);
+      api.renameFolder(data, folderId)
+        .done($(this).prevAll('h5:last').text(newName))
+        .fail(ui.onError);
     });
 };
+
+
 
 const displayUserFile = function(data){
   console.log(data);
@@ -54,15 +58,33 @@ const displayUserFile = function(data){
         }
       };
 
-      api.renameFile(data, fileId);
+      api.renameFile(data, fileId)
+        .done($(this).prevAll('h5:last').text(newName))
+        .fail(ui.onError);
     });
     $('.delete-button').on('click', function(){
       let fileId = $(this).data('file-id');
       console.log(fileId);
-      api.deleteFile(fileId);
+      api.deleteFile(fileId)
+        .done($(this).parent().remove())
+        .fail(ui.onError);
 
     });
 };
+
+// const refreshPage = function() {
+//   let path = app.currentPath;
+//
+//   console.log(path);
+//
+//   api.showRootFolder(path)
+//     .done()
+//     .fail();
+//   api.showRootFiles(path)
+//     .done(displayUserFile)
+//     .fail();
+// };
+
 
 const displayOtherUserFolder = function(data){
   console.log(data);
@@ -79,6 +101,7 @@ const displayOtherUserFile = function(data){
       files: data.files
     }));
 };
+
 
 
 
