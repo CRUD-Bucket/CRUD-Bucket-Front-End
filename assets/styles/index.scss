@@ -1,2 +1,24 @@
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
+@import 'forms';
+@import 'simple-sidebar';
+
+button {
+  margin: 0 2px;
+}
+
+#wrapper {
+  margin-top: 0;
+}
+
+.navbar-default {
+  margin-bottom: 0;
+}
+
+.folder-info {
+  padding: 20px;
+}
+
+.icon {
+  width: 70%;
+}
