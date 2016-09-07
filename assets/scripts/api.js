@@ -120,6 +120,18 @@ const deleteFile = function(fileId) {
   });
 };
 
+const renameFile = function(data, fileId) {
+  return $.ajax({
+    url: app.api + '/files/' + fileId,
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Token token=' + app.user.token,
+    },
+    data,
+  });
+};
+
+
 // const upload = function (data) {
 //   console.log(data);
 //   return $.ajax({
@@ -148,6 +160,7 @@ module.exports = {
   showRootFolder,
   showRootFiles,
   deleteFile,
+  renameFile,
 
   // upload,
 };

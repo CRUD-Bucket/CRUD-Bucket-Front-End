@@ -23,6 +23,20 @@ const displayUserFile = function(data){
     $('#main-content').append(userFileTemplate({
       files: data.files
     }));
+    $('.rename-button').on('click', function(){
+      let fileId = $(this).data('file-id');
+      console.log(fileId);
+      let newName = $(this).prev().val();
+      console.log(newName);
+
+      let data = {
+        "file" : {
+          "name": newName,
+        }
+      };
+
+      api.renameFile(data, fileId);
+    });
     $('.delete-button').on('click', function(){
       let fileId = $(this).data('file-id');
       console.log(fileId);
