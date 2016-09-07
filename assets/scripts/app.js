@@ -1,7 +1,7 @@
 'use strict';
 
 const app = {
-  api: 'http://localhost:3000',
+  api: 'https://floating-tundra-60505.herokuapp.com/',
   currentPath: '',
 };
 
