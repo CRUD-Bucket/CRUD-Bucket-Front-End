@@ -1,12 +1,13 @@
 {{#each files}}
 
-<div class="col-xs-4 col-sm-2 folder-info" data-path="{{path}}">
+<div class="col-xs-4 col-sm-2 folder-info">
   <img class="icon" src="icon-file.png" data-url="{{url}}">
   <h5>{{name}}</h5>
   <h6>Created on {{createdAt}}</h6>
   <h6>Modified on {{updatedAt}}</h6>
-  <button type="button" class="btn btn-warning btn-xs">Rename</button>
-  <button type="button" class="btn btn-danger btn-xs">Delete</button>
+  <input type="text" class="rename-file-input" name="New Filename" placeholder="New Filename">
+  <button type="button" class="btn btn-warning btn-xs rename-button" data-file-id="{{_id}}">Rename</button>
+  <button type="button" class="btn btn-danger btn-xs delete-button" data-file-id="{{_id}}">Delete</button>
 </div>
 
 {{/each}}

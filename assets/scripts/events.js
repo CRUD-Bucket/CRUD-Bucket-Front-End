@@ -15,7 +15,30 @@ const displayUserFolder = function(data){
     $('#main-content').html(userFolderTemplate({
       folders: data.folders
     }));
+    $('.rename-folder-button').on('click', function(){
+      let folderId = $(this).data('folder-id');
+
+      console.log(folderId);
+
+      let newName = $(this).prev().val();
+
+      console.log(newName);
+
+      let data = {
+        "folder" : {
+          "name": newName,
+        }
+      };
+
+      console.log(data);
+
+      api.renameFolder(data, folderId)
+        .done($(this).prevAll('h5:last').text(newName))
+        .fail(ui.onError);
+    });
 };
+
+
 
 const displayUserFile = function(data){
   console.log(data);
@@ -23,7 +46,45 @@ const displayUserFile = function(data){
     $('#main-content').append(userFileTemplate({
       files: data.files
     }));
+    $('.rename-button').on('click', function(){
+      let fileId = $(this).data('file-id');
+      console.log(fileId);
+      let newName = $(this).prev().val();
+      console.log(newName);
+
+      let data = {
+        "file" : {
+          "name": newName,
+        }
+      };
+
+      api.renameFile(data, fileId)
+        .done($(this).prevAll('h5:last').text(newName))
+        .fail(ui.onError);
+    });
+    $('.delete-button').on('click', function(){
+      let fileId = $(this).data('file-id');
+      console.log(fileId);
+      api.deleteFile(fileId)
+        .done($(this).parent().remove())
+        .fail(ui.onError);
+
+    });
 };
+
+// const refreshPage = function() {
+//   let path = app.currentPath;
+//
+//   console.log(path);
+//
+//   api.showRootFolder(path)
+//     .done()
+//     .fail();
+//   api.showRootFiles(path)
+//     .done(displayUserFile)
+//     .fail();
+// };
+
 
 const displayOtherUserFolder = function(data){
   console.log(data);
@@ -40,6 +101,7 @@ const displayOtherUserFile = function(data){
       files: data.files
     }));
 };
+
 
 
 

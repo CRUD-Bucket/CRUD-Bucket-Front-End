@@ -110,6 +110,39 @@ const getMyFolders = function () {
     });
 };
 
+const deleteFile = function(fileId) {
+  return $.ajax({
+    url: app.api + '/files/' + fileId,
+    method: 'DELETE',
+    headers: {
+      Authorization: 'Token token=' + app.user.token,
+    },
+  });
+};
+
+const renameFile = function(data, fileId) {
+  return $.ajax({
+    url: app.api + '/files/' + fileId,
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Token token=' + app.user.token,
+    },
+    data,
+  });
+};
+
+const renameFolder = function(data, folderId) {
+  return $.ajax({
+    url: app.api + '/folders/' + folderId,
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Token token=' + app.user.token,
+    },
+    data,
+  });
+};
+
+
 // const upload = function (data) {
 //   console.log(data);
 //   return $.ajax({
@@ -137,6 +170,9 @@ module.exports = {
   createRootFolder,
   showRootFolder,
   showRootFiles,
+  deleteFile,
+  renameFile,
+  renameFolder,
 
   // upload,
 };
