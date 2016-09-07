@@ -316,7 +316,7 @@ webpackJsonp([0],[
 	'use strict';
 
 	var app = {
-	  api: 'https://floating-tundra-60505.herokuapp.com/',
+	  api: 'https://floating-tundra-60505.herokuapp.com',
 	  currentPath: ''
 	};
 
