@@ -254,11 +254,17 @@ const onIcon = function (event) {
         .fail(ui.onError);
   }
   else if (target.hasClass('delete-folder-button')) {
-    console.log('delete folder button');
     let folderId = target.data('folder-id');
       api.deleteFolder(folderId)
         .done($(target).parent().remove())
         .fail(ui.onError);
+  }
+  else if (target.hasClass('foldericon')) {
+    let path = target.data('path');
+    let folderId = target.nextAll('button:first').data('folder-id');
+
+    let newPath = `${path},${folderId}`;
+    console.log(newPath);
   }
 };
 
