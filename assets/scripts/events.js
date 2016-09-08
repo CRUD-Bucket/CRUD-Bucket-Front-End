@@ -102,6 +102,21 @@ const openFolder = function (newPath) {
     .fail(ui.onError);
 };
 
+const openOtherFolder = function (newPath) {
+  app.currentPath = newPath;
+
+  let search = app.currentPath;
+
+  // console.log(search);
+
+  api.showRootFolder(search)
+    .done(displayOtherUserFolder)
+    .fail(ui.onError);
+  api.showRootFiles(search)
+    .done(displayOtherUserFile)
+    .fail(ui.onError);
+};
+
 const getRootContents = function (data) {
   //save current path
   app.currentPath = `${app.currentPath},${data.folders[0]._id}`;
@@ -280,6 +295,13 @@ const onIcon = function (event) {
 
     let newPath = `${path},${folderId}`;
     openFolder(newPath);
+  }
+  else if (target.hasClass('otherfoldericon')) {
+    let path = target.data('path');
+    let folderId = target.data('folder-id');
+
+    let newPath = `${path},${folderId}`;
+    openOtherFolder(newPath);
   }
 };
 
