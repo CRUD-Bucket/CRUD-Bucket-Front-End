@@ -375,6 +375,7 @@ const addHandlers = () => {
       contentType: false,
       data,
     }).done(addOneFile)
+    .done($('#upload-file').modal('hide'))
     .fail(err => console.error(err));
   });
 };
