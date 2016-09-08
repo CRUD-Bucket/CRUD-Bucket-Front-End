@@ -87,6 +87,21 @@ const onSignUp = function (event) {
   $('#sign-up').modal('hide');
 };
 
+const openFolder = function (newPath) {
+  app.currentPath = newPath;
+
+  let search = app.currentPath;
+
+  // console.log(search);
+
+  api.showRootFolder(search)
+    .done(displayUserFolder)
+    .fail(ui.onError);
+  api.showRootFiles(search)
+    .done(displayUserFile)
+    .fail(ui.onError);
+};
+
 const getRootContents = function (data) {
   //save current path
   app.currentPath = `${app.currentPath},${data.folders[0]._id}`;
@@ -264,7 +279,7 @@ const onIcon = function (event) {
     let folderId = target.nextAll('button:first').data('folder-id');
 
     let newPath = `${path},${folderId}`;
-    console.log(newPath);
+    openFolder(newPath);
   }
 };
 
