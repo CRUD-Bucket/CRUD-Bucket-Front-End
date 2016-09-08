@@ -11,65 +11,21 @@ const ui = require('./ui');
 
 const displayUserFolder = function(data){
   console.log(data);
-  let userFolderTemplate = require('./templates/current-user-folder.handlebars');
+  let userFolderTemplate = require('./templates/current-user-folders.handlebars');
     $('#main-content').html(userFolderTemplate({
       folders: data.folders
     }));
-    $('.rename-folder-button').on('click', function(){
-      let folderId = $(this).data('folder-id');
-
-      console.log(folderId);
-
-      let newName = $(this).prev().val();
-
-      console.log(newName);
-
-      let data = {
-        "folder" : {
-          "name": newName,
-        }
-      };
-
-      console.log(data);
-
-      api.renameFolder(data, folderId)
-        .done($(this).prevAll('h5:last').text(newName))
-        .fail(ui.onError);
-    });
 };
 
 
 
 const displayUserFile = function(data){
+  console.log('send to handlebars');
   console.log(data);
-  let userFileTemplate = require('./templates/current-user-file.handlebars');
+  let userFileTemplate = require('./templates/current-user-files.handlebars');
     $('#main-content').append(userFileTemplate({
       files: data.files
     }));
-    $('.rename-button').on('click', function(){
-      let fileId = $(this).data('file-id');
-      console.log(fileId);
-      let newName = $(this).prev().val();
-      console.log(newName);
-
-      let data = {
-        "file" : {
-          "name": newName,
-        }
-      };
-
-      api.renameFile(data, fileId)
-        .done($(this).prevAll('h5:last').text(newName))
-        .fail(ui.onError);
-    });
-    $('.delete-button').on('click', function(){
-      let fileId = $(this).data('file-id');
-      console.log(fileId);
-      api.deleteFile(fileId)
-        .done($(this).parent().remove())
-        .fail(ui.onError);
-
-    });
 };
 
 // const refreshPage = function() {
@@ -131,6 +87,36 @@ const onSignUp = function (event) {
   $('#sign-up').modal('hide');
 };
 
+const openFolder = function (newPath) {
+  app.currentPath = newPath;
+
+  let search = app.currentPath;
+
+  // console.log(search);
+
+  api.showRootFolder(search)
+    .done(displayUserFolder)
+    .fail(ui.onError);
+  api.showRootFiles(search)
+    .done(displayUserFile)
+    .fail(ui.onError);
+};
+
+const openOtherFolder = function (newPath) {
+  app.currentPath = newPath;
+
+  let search = app.currentPath;
+
+  // console.log(search);
+
+  api.showRootFolder(search)
+    .done(displayOtherUserFolder)
+    .fail(ui.onError);
+  api.showRootFiles(search)
+    .done(displayOtherUserFile)
+    .fail(ui.onError);
+};
+
 const getRootContents = function (data) {
   //save current path
   app.currentPath = `${app.currentPath},${data.folders[0]._id}`;
@@ -148,6 +134,8 @@ const getRootContents = function (data) {
 };
 
 const getRootFolder = function (data) {
+  console.log('getRootFolder');
+  console.log(data);
   app.user = data.user;
   app.currentPath = `,${data.user._id}`;
 
@@ -182,13 +170,6 @@ const displayUsers = function(data){
   $('.sidebar-nav').html(userTemplate({
       users: data.users,
     }));
-  $('.username').on('click', function(){
-    let search = ($(this).data("path"));
-    app.currentPath = search;
-    api.showRootFolder(search)
-      .done(getOtherRootContents)
-      .fail(ui.onError);
-  });
 };
 
 
@@ -226,13 +207,16 @@ const OnSignOut = function (event) {
   api.signOut()
       .done(ui.signOutSuccess)
       .fail(ui.failure);
-  $('#welcome').html('Echo Diary');
-  $('.after-sign-in, .after-show-diary').addClass('hide');
-  $('.before-sign-in').removeClass('hide');
-  $('.my-diary').empty();
-  $('.edit-diary').empty();
-  $('#welcome-user').html('Echo Diary');
-  $('#welcome-sign').html('Record your life from here');
+};
+
+const addOneFolder = (data) => {
+  let userFolderTemplate = require('./templates/current-user-folder.handlebars');
+    $('#main-content').append(userFolderTemplate({
+      name:data.folder.name,
+      _id: data.folder._id,
+      createdAt: data.folder.createdAt,
+      updatedAt: data.folder.updatedAt,
+    }));
 };
 
 //folder ajax
@@ -248,7 +232,7 @@ const onCreateFolder = function (event) {
   };
 
   api.createFolder(data)
-    .done(ui.createSuccess)
+    .done(addOneFolder)
     .fail(ui.onError);
   $('#create-folder').modal('hide');
 };
@@ -258,7 +242,118 @@ const onCreateFolder = function (event) {
 //
 // };
 
+const onIcon = function (event) {
+  let target = $(event.target);
+  if (target.hasClass('rename-button')) {
+    let fileId = target.data('fileId');
+    let newName = $(target).prev().val();
+
+      let data = {
+        "file" : {
+          "name": newName,
+        }
+      };
+
+      api.renameFile(data, fileId)
+        .done($(target).prevAll('h5:last').text(newName))
+        .fail(ui.onError);
+  }
+  else if (target.hasClass('delete-button')) {
+    let fileId = target.data('fileId');
+      api.deleteFile(fileId)
+        .done($(target).parent().remove())
+        .fail(ui.onError);
+  }
+  else if (target.hasClass('rename-folder-button')) {
+    let folderId = target.data('folder-id');
+    let newName = $(target).prev().val();
+
+      let data = {
+        "folder" : {
+          "name": newName,
+        }
+      };
+
+      api.renameFolder(data, folderId)
+        .done($(target).prevAll('h5:last').text(newName))
+        .fail(ui.onError);
+  }
+  else if (target.hasClass('delete-folder-button')) {
+    let folderId = target.data('folder-id');
+      api.deleteFolder(folderId)
+        .done($(target).parent().remove())
+        .fail(ui.onError);
+  }
+  else if (target.hasClass('foldericon')) {
+    let path = target.data('path');
+    let folderId = target.nextAll('button:first').data('folder-id');
+
+    let newPath = `${path},${folderId}`;
+    openFolder(newPath);
+  }
+  else if (target.hasClass('otherfoldericon')) {
+    let path = target.data('path');
+    let folderId = target.data('folder-id');
+
+    let newPath = `${path},${folderId}`;
+    openOtherFolder(newPath);
+  }
+};
+
+const addOneFile = (data) => {
+  let userFileTemplate = require('./templates/current-user-file.handlebars');
+    $('#main-content').append(userFileTemplate({
+      name:data.file.name,
+      _id: data.file._id,
+      url: data.file.url,
+      createdAt: data.file.createdAt,
+      updatedAt: data.file.updatedAt,
+    }));
+};
+
+const onUser = function (event) {
+  let target = $(event.target);
+  if (target.data('id') === app.user._id) {
+    getRootFolder(app);
+  }
+  else {
+    let search = target.data('path');
+    app.currentPath = search;
+      api.showRootFolder(search)
+        .done(getOtherRootContents)
+        .fail(ui.onError);
+  }
+
+
+  // $('.username').on('click', function(){
+  //   let search = ($(this).data("path"));
+  //   app.currentPath = search;
+  //   api.showRootFolder(search)
+  //     .done(getOtherRootContents)
+  //     .fail(ui.onError);
+  // });
+
+
+
+  // if (target.hasClass('rename-button')) {
+  //   let fileId = target.data('fileId');
+  //   let newName = $(target).prev().val();
+  //
+  //     let data = {
+  //       "file" : {
+  //         "name": newName,
+  //       }
+  //     };
+  //
+  //     api.renameFile(data, fileId)
+  //       .done($(target).prevAll('h5:last').text(newName))
+  //       .fail(ui.onError);
+  // }
+};
+
 const addHandlers = () => {
+  $('.icon-div').on('click', onIcon);
+  $('.sidebar-nav').on('click', onUser);
   $('.sign-up-form').on('submit', onSignUp);
   $('.sign-in-form').on('submit', onSignIn);
   $('.change-password-form').on('submit', onChangePassword);
@@ -269,7 +364,7 @@ const addHandlers = () => {
     event.preventDefault();
     let data = new FormData(this);
     data.append('path', app.currentPath);
-    console.log(data);
+    console.log('upload');
     return $.ajax({
       url: app.api + '/files',
       method: 'POST',
@@ -279,7 +374,8 @@ const addHandlers = () => {
       processData: false,
       contentType: false,
       data,
-    }).done(data => $('.upload').html(`${data.file.url}`))
+    }).done(addOneFile)
+    .done($('#upload-file').modal('hide'))
     .fail(err => console.error(err));
   });
 };
