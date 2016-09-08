@@ -134,6 +134,8 @@ const getRootContents = function (data) {
 };
 
 const getRootFolder = function (data) {
+  console.log('getRootFolder');
+  console.log(data);
   app.user = data.user;
   app.currentPath = `,${data.user._id}`;
 
@@ -168,13 +170,6 @@ const displayUsers = function(data){
   $('.sidebar-nav').html(userTemplate({
       users: data.users,
     }));
-  $('.username').on('click', function(){
-    let search = ($(this).data("path"));
-    app.currentPath = search;
-    api.showRootFolder(search)
-      .done(getOtherRootContents)
-      .fail(ui.onError);
-  });
 };
 
 
@@ -316,8 +311,49 @@ const addOneFile = (data) => {
     }));
 };
 
+const onUser = function (event) {
+  let target = $(event.target);
+  if (target.data('id') === app.user._id) {
+    getRootFolder(app);
+  }
+  else {
+    let search = target.data('path');
+    app.currentPath = search;
+      api.showRootFolder(search)
+        .done(getOtherRootContents)
+        .fail(ui.onError);
+  }
+
+
+  // $('.username').on('click', function(){
+  //   let search = ($(this).data("path"));
+  //   app.currentPath = search;
+  //   api.showRootFolder(search)
+  //     .done(getOtherRootContents)
+  //     .fail(ui.onError);
+  // });
+
+
+
+  // if (target.hasClass('rename-button')) {
+  //   let fileId = target.data('fileId');
+  //   let newName = $(target).prev().val();
+  //
+  //     let data = {
+  //       "file" : {
+  //         "name": newName,
+  //       }
+  //     };
+  //
+  //     api.renameFile(data, fileId)
+  //       .done($(target).prevAll('h5:last').text(newName))
+  //       .fail(ui.onError);
+  // }
+};
+
 const addHandlers = () => {
   $('.icon-div').on('click', onIcon);
+  $('.sidebar-nav').on('click', onUser);
   $('.sign-up-form').on('submit', onSignUp);
   $('.sign-in-form').on('submit', onSignIn);
   $('.change-password-form').on('submit', onChangePassword);
