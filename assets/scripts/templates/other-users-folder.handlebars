@@ -1,7 +1,7 @@
 {{#each folders}}
 
-<div class="col-xs-4 col-sm-2 folder-info" data-path="{{path}}">
-  <img class="icon" src="icon-folder.png" >
+<div class="col-xs-4 col-sm-2 folder-info">
+  <img class="icon otherfoldericon" src="icon-folder.png" data-path="{{path}}" data-folder-id="{{_id}}">
   <h5>{{name}}</h5>
   <h6>Created on {{createdAt}}</h6>
   <h6>Modified on {{updatedAt}}</h6>

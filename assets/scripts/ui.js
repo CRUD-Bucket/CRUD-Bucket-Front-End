@@ -13,7 +13,8 @@ const failure = (error) => {
 
 const signOutSuccess = () => {
   delete app.user;
-  console.log('success');
+  $('.icon-div').empty();
+  $('.sidebar-nav').empty();
 };
 
 const createSuccess = () => {

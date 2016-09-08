@@ -1,13 +1,9 @@
-{{#each folders}}
-
-<div class="col-xs-4 col-sm-2 folder-info" data-path="{{path}}">
-  <img class="icon" src="icon-folder.png" >
+<div class="col-xs-4 col-sm-2 folder-info">
+  <img class="icon foldericon" src="icon-folder.png" data-path="{{path}}">
   <h5>{{name}}</h5>
   <h6>Created on {{createdAt}}</h6>
   <h6>Modified on {{updatedAt}}</h6>
   <input type="text" class="rename-folder-input" name="New Folder Name" placeholder="New Folder Name">
   <button type="button" class="btn btn-warning btn-xs rename-folder-button" data-folder-id="{{_id}}">Rename</button>
-  <button type="button" class="btn btn-danger btn-xs">Delete</button>
+  <button type="button" class="btn btn-danger btn-xs delete-folder-button" data-folder-id="{{_id}}">Delete</button>
 </div>
-
-{{/each}}
