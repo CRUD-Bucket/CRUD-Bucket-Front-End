@@ -24,3 +24,7 @@ Express
 MongoDB
 
 AWS-S3
+
+## [Live App](https://crud-bucket.github.io/CRUD-Bucket-Front-End)
+
+## [Back-End API](https://github.com/CRUD-Bucket/CRUD-Bucket-Back-End)
